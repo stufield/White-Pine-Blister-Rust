@@ -1,0 +1,18 @@
+Package: pine
+Type: Package
+Title: pine
+Version: 2.0
+Date: 2017-01-07
+Authors@R: c(person('Stu', 'Field', email='wiki.kimi@gmail.com', role=c('aut','cre')),
+             person('Mike', 'Antolin', email='mantolin@colostate.edu', role='aut'),
+             person('Anna', 'Schoettle', email='aschoettle@fs.fed.us', role='aut'),
+             person('Simon', 'Tavener', email='tavener@math.colostate.edu', role='aut'))
+Description: Full suite of all user-defined functions, subroutines, and data 
+   for the high-elevation white pine/WPBR project.
+License: GNU General Public License (>= 3)
+Depends: R (>= 3.0.0), stuRpkg
+Suggests: gplots
+BuildVignettes: false
+LazyLoad: yes
+LazyData: yes
+RoxygenNote: 5.0.1

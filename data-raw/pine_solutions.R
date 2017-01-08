@@ -1,0 +1,11 @@
+library(stuRpkg)
+source("../R/pine.R")
+source("../R/pine12.R")
+source("../R/pine36.R")
+gens <- c(2, 10, 100, 101, 1000, 1001)
+pine12_solutions <- lapply(gens, pine12, plot=FALSE)
+names(pine12_solutions) <- paste0("Gen", gens)
+pine36_solutions <- lapply(gens, pine36, plot=FALSE)
+names(pine36_solutions) <- paste0("Gen", gens)
+save(pine12_solutions, pine36_solutions, file="../data/pine_solutions.rda")
+

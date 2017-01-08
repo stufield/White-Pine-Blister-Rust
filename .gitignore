@@ -1,0 +1,11 @@
+
+# no dropbox attributes files
+*dropbox.attr
+
+# ignore pkg related manuals and package builds
+man
+
+# ignore all packrat and RStudio project related files
+.project
+packrat/lib*/
+
