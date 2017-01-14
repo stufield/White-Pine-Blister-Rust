@@ -4,14 +4,14 @@
 #' Full suite of all user-defined functions, subroutines, and data for the
 #' high-elevation white pine/WPBR project.
 #' 
-#'
 #' \tabular{ll}{
 #' Package:  \tab pine \cr
 #' Type:     \tab Package \cr
 #' Version:  \tab 1.0 \cr
-#' Date:     \tab 2017-01-07 \cr
-#' License:  \tab GNU GPL 3 \cr
+#' Date:     \tab 2017-01-15 \cr
+#' License:  \tab GNU General Public License (>= 3) \cr
 #' LazyLoad: \tab yes \cr
+#' LazyData: \tab yes
 #' }
 #' 
 #' @name pine-package
