@@ -19,8 +19,6 @@
 #' reverts to \code{\link{cumsum}}
 #' @author Stu Field
 #' @seealso \code{\link{cumsum}}
-#' @references %% ~put references to the literature/web site here ~
-#' @keywords ~kwd1 ~kwd2
 #' @examples
 #' 
 #' cumsum2(1:20, 5)
@@ -52,7 +50,7 @@ cumsum2 <- function(x, cut) {
 #' 
 #' Calculate cumulative number of dead trees during a population projection
 #' 
-#' used in pine12
+#' Used internally during \code{\link{pine12}}.
 #' 
 #' @param PM The (post) matrix containing the stages (cols) with 
 #' solutions at all time steps (rows)
@@ -61,11 +59,9 @@ cumsum2 <- function(x, cut) {
 #' @param cc Cost parameters (as placed in the cost matrix along the diagonal)
 #' @return A matrix of the cumulative number of dead trees, rows = time steps,
 #' cols = classes.
-#' @note %%
 #' @author Stu Field
 #' @seealso \code{\link{pine12}}
 #' @references Thanks to Jesse Drendel for simplifying the code considerably.
-#' @keywords ~kwd1 ~kwd2
 #' @examples
 #' 
 #' # see pine12 output
@@ -95,15 +91,11 @@ calcDeadTrees <- function(PM, s, t, cc) {
 #' \eqn{lambda} in matrix modeling as it is not a property of the projection
 #' matrix itself, but is calculated post-process based on the solutions.
 #' 
-#' %% ~~ If necessary, more details than the description above ~~
-#' 
 #' @param x A numeric vector of the total population over time.
 #' @return Proportional growth (x_t+1 / x_t)
 #' @note Used in pine12
 #' @author Stu Field
 #' @seealso \code{\link{do.call}}
-#' @references %% ~put references to the literature/web site here ~
-#' @keywords ~kwd1 ~kwd2
 #' @examples
 #' 
 #' pop <- (1:10)^2
@@ -256,18 +248,15 @@ mating36 <- function(Y, W, FM) {
 #' of \code{\link{pine12}} solutions, and include total prevalence in the final
 #' column. Time should be the rows and classes as columns.
 #' 
-#' Used in pine12
+#' Used internally during \code{\link{pine12}}.
 #' 
 #' @param x The population projection over time with solutions as rows and
 #' classes as columns.
 #' @param total Total prevalence. Must be calculated externally.
 #' @return A vector of the relative prevalences of each of the classes, with
 #' the total prevalence in the final column.
-#' @note %%
 #' @author Stu Field
 #' @seealso \code{\link{pine12}}
-#' @references %% ~put references to the literature/web site here ~
-#' @keywords ~kwd1 ~kwd2
 #' @examples
 #' 
 #' A <- matrix(1:96, ncol=12)
@@ -297,7 +286,7 @@ prevClass <- function(x, total) {
 #' time step of the projection. Summed by class gives: Seeds, SD1, SD2, SP, YA,
 #' MA.
 #' 
-#' Function for calculating pine12() stages by grouping infected 
+#' Function for calculating \code{\link{pine12}} stages by grouping infected 
 #' and susceptible classes
 #' 
 #' @param x A storage matrix of the 12 class matrix projection containing
@@ -305,11 +294,8 @@ prevClass <- function(x, total) {
 #' classes (cols) but for proper grouping, it must be only a SI model, i.e. two
 #' disease classes only.
 #' @return A matrix of the solutions over time grouped by stage (1-6).
-#' @note %%
 #' @author Stu Field
 #' @seealso \code{\link{pine12}}
-#' @references %% ~put references to the literature/web site here ~
-#' @keywords ~kwd1 ~kwd2
 #' @examples
 #' 
 #' # 8 generations/12 stages
@@ -344,7 +330,7 @@ groupClass <- function(x) {
 #' survivorship via 1 - m_i
 #' @return A matrix with classes as the columns. Row 1 is the survivorship, row
 #' 2 are transitions.
-#' @note Used in pine12 & pine36
+#' @note Used internally in \code{\link{pine12}}and \code{\link{pine36}}
 #' @author Stu Field
 #' @seealso \code{\link{pine12}}, \code{\link{pine36}}
 #' @examples

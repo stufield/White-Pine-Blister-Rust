@@ -80,11 +80,9 @@
 #' time step}
 #' \item{LambdaGrowth }{A vector of the proportional growth in successional time
 #' steps during the projection}
-#' @note %%%
 #' @author Stu Field
 #' @seealso \code{\link{pine36}}
-#' @references %% ~put references to the literature/web site here ~
-#' @keywords ~kwd1 ~kwd2
+#' @keywords pine12 pine36 CSU white pine blister rust
 #' @examples
 #' 
 #' pine12(Gen=25, silent=FALSE)

@@ -100,7 +100,7 @@
 #' @note Lots of work during my post-doc!
 #' @author Stu Field
 #' @seealso \code{\link{pine12}}
-#' @references %% ~put references to the literature/web site here ~
+#' @keywords pine12 pine36 CSU white pine blister rust
 #' @examples
 #' 
 #' R1R1 <- c(10000,100,87,82,123,244,   0,0,0,0,0,0)
