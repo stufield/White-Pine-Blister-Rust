@@ -369,7 +369,6 @@ vitals <- function(R, M) {
 #' @note further notes
 #' @author Stu Field
 #' @references Hardy-Weinberg and many others...
-#' @keywords ~kwd1 ~kwd2
 #' @examples
 #' 
 #' pop <- c(AA=123, Aa=45, aa=88)

@@ -10,21 +10,21 @@
 #' (rALs & r.cache) & density-dependent fecundity (r.cones). Genetics or
 #' resistance is added to the model in \code{pine36}.
 #' 
-#' State.vector = c(SD, SD1, SD2, SP, YA, MA, SDi, SD1i, SD2i, SPi, YAi, MAi)
+#' State_vector <- c(SD, SD1, SD2, SP, YA, MA, SDi, SD1i, SD2i, SPi, YAi, MAi)
 #' Beta for the Adult stage (Range = 0.016 - 0.14); default = 0.044.
 #' 
 #' @param Gen Integer. Number of generations to project the population.
 #' @param x1 A vector indicating the initial population.
-#' @param Beta The transmission probability
+#' @param Beta The transmission probability.
 #' @param LAIb Background LAI due to external species in the simulation.
 #' @param r.site Suitability of the site to germination. Defaults to no effect (r.site=1).
 #' @param delta Effect of infection on survivorship.
 #' @param C.f Effect of infection on fecundity.
-#' @param rho Relative difference in fecundity between young adults (jv) &
+#' @param rho Relative difference in fecundity between young adults (jv) and
 #' mature adults (ad).
 #' @param Cmax Maximum cone production per reproductive tree.
-#' @param SpC Seeds per cache
-#' @param S.cone Seeds per cone
+#' @param SpC Seeds per cache.
+#' @param S.cone Seeds per cone.
 #' @param P.find Proportion of seeds found by dispersal vectors (birds).
 #' @param nBirds Number of birds per plot.
 #' @param P.cons Proportion of seeds immediately consumed by birds.
@@ -47,7 +47,7 @@
 #' 2-dim matrix and exported to a *.csv file (in the working directory)?
 #' @param filename Character string. If \code{csv=TRUE}, the name of the csv
 #' file to be produced.
-#' @param silent Logical. Should the output be silenced?
+#' @param silent Logical. Should visible output return be silenced?
 #' @return A list containing:
 #' \item{theta }{List of model parameters}
 #' \item{InitialPop }{A vector of the initial population (x1 -> x12)}
@@ -132,20 +132,21 @@ pine12 <- function(Gen = 25,
    #####################################################
    # Create storage matrices & vectors
    #####################################################
+   zeros    <- stuRpkg::zeros
    n_stages <- length(x1)
 
    # overall storage of population projection
    popn.Mat <- matrix(0, Gen, n_stages,
                       dimnames=list(paste0("Gen",1:Gen), paste0("Stage", 1:n_stages)))
 
-   popn.Mat[1,] = x1                             # first row is the initial population
-   Pop.Total    = sum(x1[-1])                    # Remove seeds from total population
+   popn.Mat[1,] <- x1                             # first row is the initial population
+   Pop.Total    <- sum(x1[-1])                    # Remove seeds from total population
    # Initiate storage vectors
-   LAI.v        = numeric(Gen)                   # LAI
-   Prev.v       = sum(x1[8:12]) / (sum(x1[-1]))  # prevalence
-   r.cache.v    = numeric(Gen)                   # r.cache
-   Cones.v      = numeric(Gen)                   # Cones per tree
-   SR.v         = numeric(Gen)                   # Seedling Recruitment
+   LAI.v        <- numeric(Gen)                   # LAI
+   Prev.v       <- sum(x1[8:12]) / (sum(x1[-1]))  # prevalence
+   r.cache.v    <- numeric(Gen)                   # r.cache
+   Cones.v      <- numeric(Gen)                   # Cones per tree
+   SR.v         <- numeric(Gen)                   # Seedling Recruitment
 
    ########################################
    #### Calculate Vital Rates #############
@@ -171,17 +172,17 @@ pine12 <- function(Gen = 25,
    ##########################
    #### Cost parameters #####
    ##########################
-   C.par <- 1 - exp(-delta * (dbh.v))   # Cost of infection to survivorship
+   C.par    <- 1 - exp(-delta * (dbh.v))   # Cost of infection to survivorship
    C.par[2] <- 1 - c2
    C.par[3] <- 1 - c3
-   C.par <- c(rep(1, 6), C.par)         # Make into 12 entry matrix, 1s for uninfected classes
+   C.par    <- c(rep(1, 6), C.par)         # Make into 12 entry matrix, 1s for uninfected classes
 
    ####################################
    #### Set up projection matrix ######
    ######## Linear Map Matrix #########
    ####################################
    # Survivorship Matrix
-   S <- diag(S.par) + diagR(T.par[1:5], -1)
+   S <- diag(S.par) + stuRpkg::diagR(T.par[1:5], -1)
 
    # Cost Matrix
    C <- diag(C.par)
@@ -193,10 +194,10 @@ pine12 <- function(Gen = 25,
    I6 <- diag(6)
 
    ### Combine sub-matrices using MatComb function
-   SM <- BlockMat(list(S, zeros(6), zeros(6), S), b=2) %*% C
+   SM <- stuRpkg::BlockMat(list(S, zeros(6), zeros(6), S), b=2) %*% C
 
    # Combine sub-matrices using MatComb function
-   BM <- BlockMat(list(I6-B, zeros(6), B, I6), b=2)
+   BM <- stuRpkg::BlockMat(list(I6-B, zeros(6), B, I6), b=2)
 
    
    #  Loop over generations #
@@ -398,10 +399,11 @@ pine12 <- function(Gen = 25,
                LambdaGrowth = Lambda
          )
 
-   if ( silent )
+   if ( silent ) {
       invisible(ret)
-   else
+   } else {
       ret
+   }
 }
 
 

@@ -24,52 +24,50 @@
 #' to the susceptible homozygotes, effectively negating resistance. When \code{h=0.5}
 #' heterozygote fitness is intermediate between the two extremes.
 #' 
-#' @param Gen Integer. Number of generations to project the population
+#' @param Gen Integer. Number of generations to project the population.
 #' @param x1 A matrix indicating the initial population, with rows as classes
-#' and cols as genotypes
+#' and cols as genotypes.
 #' @param M Numeric. A vector (of length=5) describing the mortality for each class (1
-#' -> 5). Subsequently converted to survivorship by the \code{vitals}
-#' functions
-#' @param m6 The mortality of the adult class (6)
+#' -> 5). Subsequently converted to survivorship by the \code{vitals} functions.
+#' @param m6 The mortality of the adult class (6).
 #' @param R Numeric. A vector (of length=6) describing the mean Residence time for each
-#' class (1 -> 6)
-#' @param Beta Numeric scalar. The transmission probability
+#' class (1 -> 6).
+#' @param Beta Numeric scalar. The transmission probability.
 #' @param dbh.v A vector (of length=6) describing the mean dbh for each class
-#' (1 -> 6)
-#' @param s1 Cost of infection to survivorship of SD1 individuals
-#' @param s2 Cost of infection to survivorship of SD2 individuals
-#' @param delta Effect of infection on survivorship
+#' (1 -> 6).
+#' @param s1 Cost of infection to survivorship of SD1 individuals.
+#' @param s2 Cost of infection to survivorship of SD2 individuals.
+#' @param delta Effect of infection on survivorship.
 #' @param alpha1 Coefficient corresponding to the LAI of the sapling (SA)
-#' stage
-#' @param alpha2 Coefficient for the conversion of dbh -> LAI
-#' @param alpha3 Coefficient in the exponent for the conversion of dbh -> LAI
-#' @param LAIb Background LAI due to external species in the simulation
-#' @param Cmax Maximum cone production per reproductive tree
-#' @param S.cone Seeds per cone
-#' @param P.find Proportion of seeds found by dispersal vectors (birds)
-#' @param P.cons Proportion of seeds immediately consumed by birds
-#' @param SpC Seeds per cache
-#' @param cf Cost of infection to fecundity
-#' @param nBirds Number of birds per modeling plot (area)
-#' @param r.site Suitability of the site to germination. Defaults to no effect
-#' (=1)
+#' stage.
+#' @param alpha2 Coefficient for the conversion of dbh -> LAI.
+#' @param alpha3 Coefficient in the exponent for the conversion of dbh -> LAI.
+#' @param LAIb Background LAI due to external species in the simulation.
+#' @param Cmax Maximum cone production per reproductive tree.
+#' @param S.cone Seeds per cone.
+#' @param P.find Proportion of seeds found by dispersal vectors (birds).
+#' @param P.cons Proportion of seeds immediately consumed by birds.
+#' @param SpC Seeds per cache.
+#' @param cf Cost of infection to fecundity.
+#' @param nBirds Number of birds per modeling plot (area).
+#' @param r.site Suitability of the site to germination. Defaults to no effect (=1).
 #' @param h Numeric. Scalar in [0,1] indicating the degree of dominance for the
-#' resistance allele
+#' resistance allele.
 #' @param rho Relative difference in fecundity between young adults (jv) &
-#' mature adults (ad)
+#' mature adults (ad).
 #' @param qpollen Logical or Numeric. If \code{FALSE} (default), a pollen cloud,
 #' i.e. a \emph{constant} q allele, is turned not assumed and offspring are produced 
 #' according to \code{mating36}. If Numeric, the frequency of the susceptible allele 
-#' (q/R2) which is fixed. Must be in [0,1]
+#' (q/R2) which is fixed. Must be in [0,1].
 #' @param NoSeln Logical. Should there be no selection applied to both
 #' survivorship & fecundity? Defaults to \code{FALSE} and therefore WITH
-#' selection. Used for testing Hardy-Weinberg genetics
+#' selection. Used for testing Hardy-Weinberg genetics.
 #' @param plot Logical. Should output plots be created?
 #' @param csv Logical. Should all solutions and time steps be converted to a
 #' 2-dim matrix and exported to a *.csv file (in the working directory)?
 #' @param filename Character string. If \code{csv=TRUE}, the name of the csv
-#' file to be produced
-#' @param silent Logical. Should the output be silenced?
+#' file to be produced.
+#' @param silent Logical. Should visible output return be silenced?
 #' @return A list containing:
 #' \item{theta }{List of model parameters}
 #' \item{InitialPop }{A matrix corresponding to \code{x1}, the initial population}
@@ -152,9 +150,11 @@ pine36 <- function(Gen = 25,
    #########################################
    # Storage array and  vectors for results
    #########################################
+   BlockMat <- stuRpkg::BlockMat
+   zeros    <- stuRpkg::zeros
    n_stages <- length(x1)
-   classes  <- c(paste0("C",1:6), paste0("C",1:6,"i"))
-   I.Gtype  <- apply(x1[-1,], 2, sum)
+   classes  <- c(paste0("C", 1:6), paste0("C", 1:6, "i"))
+   I.Gtype  <- apply(x1[-1, ], 2, sum)
 
    # overall storage of population projection
    Popn <- array(0, dim=c(n_stages/3, 3, Gen),
@@ -211,12 +211,12 @@ pine36 <- function(Gen = 25,
 
    # Set up projection matrix (Linear Map)
    # Survivorship Matrix
-   S <- diag(S.par) + diagR(T.par[1:5], -1)
+   S <- diag(S.par) + stuRpkg::diagR(T.par[1:5], -1)
 
    # Fitness Matrix
-   W.AA <- BlockMat(list(I6,zeros(6), zeros(6),I6), b=2)
-   W.Aa <- BlockMat(list(I6,zeros(6), zeros(6),w.hs), b=2)
-   W.aa <- BlockMat(list(I6,zeros(6), zeros(6),w.s), b=2)
+   W.AA <- BlockMat(list(I6, zeros(6), zeros(6), I6), b=2)
+   W.Aa <- BlockMat(list(I6, zeros(6), zeros(6), w.hs), b=2)
+   W.aa <- BlockMat(list(I6, zeros(6), zeros(6), w.s), b=2)
 
    # Zeros Matrix for filling
    Z <- zeros(n_stages / 3)
@@ -323,13 +323,13 @@ pine36 <- function(Gen = 25,
       ################
       Gtypes <- apply(Popn[-1,,n], 2, sum)  # sum the cols (Gtypes); 
                                             # put [-1,x,n] to remove seeds
-      Gtype.Sum[n,] <- Gtypes
-      freq.R[n] <- freqz(Gtypes)[1]         # Calc p
-      freq.r[n] <- freqz(Gtypes)[2]         # Calc q
-      Pop.Total[n] <- sum(Popn[-1,,n])      # remove seeds
-      Prev.v[n] <- ifelse(h==0,
-                        sum(Popn[8:12,3,n]) / (sum(Popn[-1,,n])), 
-                        sum(Popn[8:12,2:3,n]) / (sum(Popn[-1,,n])))
+      Gtype.Sum[n, ] <- Gtypes
+      freq.R[n]      <- freqz(Gtypes)[1]         # Calc p
+      freq.r[n]      <- freqz(Gtypes)[2]         # Calc q
+      Pop.Total[n]   <- sum(Popn[-1,,n])      # remove seeds
+      Prev.v[n]      <- ifelse(h==0,
+                               sum(Popn[8:12,3,n]) / (sum(Popn[-1,,n])), 
+                               sum(Popn[8:12,2:3,n]) / (sum(Popn[-1,,n])))
    }
    # END OF LOOP
 
@@ -445,10 +445,11 @@ pine36 <- function(Gen = 25,
                LambdaGrowthGtype = Lambda2,  # Lambda by Genotype
                FullSolution = Popn)          # ALL Solutions by Generation
 
-   if ( silent )
+   if ( silent ) {
       invisible(ret)
-   else
+   } else {
       ret
+   }
 
 }
 
